@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { getSortedPostsData } from "../lib/post";
+// import { getSortedPostsData } from "../lib/post";
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 
@@ -34,10 +34,30 @@ export default function Home({ sortedData }) {
   );
 }
 
-export async function getStaticProps() {
-  const sortedData = getSortedPostsData();
+// export async function getStaticProps() {
+//   const sortedData = getSortedPostsData();
+
+//   return {
+//     props: { sortedData },
+//   };
+// }
+
+export async function getServerSideProps(context) {
+  const sortedData = await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          id: 1,
+          date: "2023-11-08 10:00:04",
+          title: "try server side preRender",
+        },
+      ]);
+    }, 0);
+  });
 
   return {
-    props: { sortedData },
+    props: {
+      sortedData,
+    },
   };
 }
